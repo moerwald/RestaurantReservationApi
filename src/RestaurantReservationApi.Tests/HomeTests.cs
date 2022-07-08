@@ -1,9 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RestaurantReservationApi.Tests
 {
@@ -15,9 +10,26 @@ namespace RestaurantReservationApi.Tests
             using var factory = new WebApplicationFactory<Startup>();
             var client = factory.CreateClient();
 
-            var response = await client.GetAsync("").ConfigureAwait(false);
+            var response = await client.GetAsync("");
 
             Assert.True(response.IsSuccessStatusCode, $"Actual status code: {response.StatusCode}");
+        }
+
+        [Fact]
+        public async Task HomeReturnsJson()
+        {
+            using var factory = new WebApplicationFactory<Startup>();
+            var client = factory.CreateClient();
+
+            using var request = new HttpRequestMessage(HttpMethod.Get, "");
+            request.Headers.Accept.ParseAdd("application/json");
+            var response = await client.SendAsync(request);
+
+            Assert.True(response.IsSuccessStatusCode, $"Actual status code: {response.StatusCode}");
+            Assert.Equal("application/json", response.Content.Headers.ContentType.MediaType);
+
+
+
         }
     }
 }
