@@ -1,11 +1,11 @@
-
-
 using RestaurantReservationApi;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Logging.AddConsole();
-builder.Services.AddSingleton<IReservationRepository>(new NullRepository());
+builder.Services.AddSingleton<IReservationRepository>(
+    new SqlReservationRepository(
+        builder.Configuration.GetConnectionString("RestaurantDbConnection")));
 
 var app = builder.Build();
 
