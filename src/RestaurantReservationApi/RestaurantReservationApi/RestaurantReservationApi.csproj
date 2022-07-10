@@ -15,6 +15,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="RestaurantDbSchema.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="RestaurantDbSchema.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
