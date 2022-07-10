@@ -3,9 +3,13 @@ using RestaurantReservationApi;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Logging.AddConsole();
-builder.Services.AddSingleton<IReservationRepository>(
-    new SqlReservationRepository(
-        builder.Configuration.GetConnectionString("RestaurantDbConnection")));
+builder.Services.AddSingleton<IReservationRepository>(sp =>
+{
+    var cs = builder.Configuration.GetConnectionString("RestaurantDbConnection");
+    var logger = sp.GetService<ILogger<SqlReservationRepository>>();
+    return new SqlReservationRepository(cs, logger!);
+
+});
 
 var app = builder.Build();
 
