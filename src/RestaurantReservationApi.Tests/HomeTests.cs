@@ -8,7 +8,7 @@ namespace RestaurantReservationApi.Tests
         [Fact]
         public async Task HomeIsOk()
         {
-            using var factory = new WebApplicationFactory<Program>();
+            using var factory = new RestaurantApiFactory();
             var client = factory.CreateClient();
 
             var response = await client.GetAsync("");
@@ -19,7 +19,7 @@ namespace RestaurantReservationApi.Tests
         [Fact]
         public async Task HomeReturnsJson()
         {
-            using var factory = new WebApplicationFactory<Program>();
+            using var factory = new RestaurantApiFactory();
             var client = factory.CreateClient();
 
             using var request = new HttpRequestMessage(HttpMethod.Get, "");
@@ -28,9 +28,6 @@ namespace RestaurantReservationApi.Tests
 
             Assert.True(response.IsSuccessStatusCode, $"Actual status code: {response.StatusCode}");
             Assert.Equal("application/json", response?.Content?.Headers?.ContentType?.MediaType);
-
-
-
         }
     }
 }

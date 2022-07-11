@@ -23,13 +23,13 @@ namespace RestaurantReservationApi.Tests
                     date = "2023-03-10 19:40"
                 });
 
-            Assert.False(response.IsSuccessStatusCode,
+            Assert.True(response.IsSuccessStatusCode,
                 $"Actual status code: {response.StatusCode}");
         }
 
         private static async Task<HttpResponseMessage> PostReservationAsync(object content)
         {
-            using var factory = new WebApplicationFactory<Program>();
+            using var factory = new RestaurantApiFactory();
             var client = factory.CreateClient();
 
             var c = new StringContent(JsonSerializer.Serialize(content));
