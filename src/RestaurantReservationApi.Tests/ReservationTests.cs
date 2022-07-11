@@ -23,7 +23,7 @@ namespace RestaurantReservationApi.Tests
                     date = "2023-03-10 19:40"
                 });
 
-            Assert.True(response.IsSuccessStatusCode,
+            Assert.False(response.IsSuccessStatusCode,
                 $"Actual status code: {response.StatusCode}");
         }
 
