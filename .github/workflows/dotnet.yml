@@ -18,8 +18,8 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore src/RestaurantReservationApi/RestaurantReservationApi/RestaurantReservationApi.csproj
+      run: dotnet restore src/RestaurantReservationApi/RestaurantReservationApi.sln
     - name: Build
-      run: dotnet build --no-restore src/RestaurantReservationApi/RestaurantReservationApi/RestaurantReservationApi.csproj
+      run: dotnet build --no-restore src/RestaurantReservationApi/RestaurantReservationApi.sln
     - name: Test
-      run: dotnet test --no-build --verbosity normal src/RestaurantReservationApi.Tests/RestaurantReservationApi.Tests.csproj
+      run: dotnet test --no-build --verbosity normal src/RestaurantReservationApi/RestaurantReservationApi.sln
