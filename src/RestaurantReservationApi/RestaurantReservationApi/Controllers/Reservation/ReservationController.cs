@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RestaurantReservationApi.Controllers.Reservation
 {
     [ApiController, Route("reservations")]
-    public class ReservationController 
+    public class ReservationController
     {
         private IReservationRepository _reservationRepository;
 
@@ -16,7 +17,9 @@ namespace RestaurantReservationApi.Controllers.Reservation
         {
             ArgumentNullException.ThrowIfNull(dto);
 
-            await _reservationRepository.Create(new Reservation(dto.Name, dto.At, dto.Email, dto.Quantity)).ConfigureAwait(false);
+            await _reservationRepository
+                .Create(new Reservation(dto.Name, DateTime.Parse(dto.At!, CultureInfo.InvariantCulture), dto.Email,
+                    dto.Quantity)).ConfigureAwait(false);
         }
     }
 }
