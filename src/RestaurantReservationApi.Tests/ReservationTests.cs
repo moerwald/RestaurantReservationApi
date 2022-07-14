@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using RestaurantReservationApi.Controllers.Reservation;
 
 namespace RestaurantReservationApi.Tests
@@ -59,6 +61,22 @@ namespace RestaurantReservationApi.Tests
 
         }
 
+        [Theory]
+        [InlineData(null, "a@gmail.com", "2022-03-10 19:00", 1)]
+        [InlineData("John Doe", null, "2022-03-10 19:00", 1)]
+        [InlineData("John Doe", "a@gmail.com", "not a date", 1)]
+        [InlineData("John Doe", "a@gmail.com", "2022-03-10 19:00", 0)]
+        [InlineData("John Doe", "a@gmail.com", "2022-03-10 19:00", -1)]
+        public async Task PostInvalidInputData(
+            string name,
+            string email,
+            string at,
+            int quantity)
+        {
+            var response = await PostReservationAsync(new {name, email, at, quantity});
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+        
         private static async Task<HttpResponseMessage> PostReservationAsync(object content)
         {
             await using var factory = new RestaurantApiFactory();
