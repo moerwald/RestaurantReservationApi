@@ -4,6 +4,7 @@ namespace RestaurantReservationApi
 {
     public interface IReservationRepository
     {
-        Task Create(Reservation reservation);
+        Task CreateAsync(Reservation reservation);
+        Task<IEnumerable<Reservation>> ReadReservationsAsync(DateTime dateTime);
     }
 }

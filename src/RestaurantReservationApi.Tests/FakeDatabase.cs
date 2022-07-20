@@ -10,10 +10,13 @@ namespace RestaurantReservationApi.Tests
 {
     public class FakeDatabase : Collection<Reservation>, IReservationRepository
     {
-        public Task Create(Reservation reservation)
+        public Task CreateAsync(Reservation reservation)
         {
             Add(reservation);
             return Task.CompletedTask;
         }
+
+        public Task<IEnumerable<Reservation>> ReadReservationsAsync(DateTime dateTime) =>
+            Task.FromResult(this.Where(r => r.At.Date == dateTime.Date));
     }
 }

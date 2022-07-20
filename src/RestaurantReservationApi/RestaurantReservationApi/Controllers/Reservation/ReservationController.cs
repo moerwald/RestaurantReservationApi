@@ -22,8 +22,16 @@ namespace RestaurantReservationApi.Controllers.Reservation
                 return new BadRequestResult();
             }
 
+            var quantitySum =
+                (await _reservationRepository.ReadReservationsAsync(DateTime.Parse(dto.At))).Sum(r => r.Quantity);
+            
+            if (10 < quantitySum + dto.Quantity)
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+
             await _reservationRepository
-                .Create(new Reservation(dto.Name, DateTime.Parse(dto.At!, CultureInfo.InvariantCulture), dto.Email,
+                .CreateAsync(new Reservation(dto.Name, DateTime.Parse(dto.At!, CultureInfo.InvariantCulture), dto.Email,
                     dto.Quantity)).ConfigureAwait(false);
 
             return new NoContentResult();
